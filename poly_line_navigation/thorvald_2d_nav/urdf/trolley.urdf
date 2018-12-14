@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<robot name="trolley">
+
+  <material name="blue">
+    <color rgba="0 0 .8 1"/>
+  </material>
+
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+
+  <material name="grey">
+    <color rgba="0.169 0.169 0.169 1"/>
+  </material>
+
+  <material name="green">
+    <color rgba="0 1 0 1"/>
+  </material>
+
+  <link name="base_link">
+  <visual>
+      <geometry>
+        <box size="0.98 0.48 0.0"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+
+  <link name="base_imu_link">
+  <visual>
+      <geometry>
+        <box size="0.05 0.05 0.02"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <joint name="center_to_imu" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_imu_link"/>
+    <origin xyz="-0.28 0.0 0.01"/>
+  </joint>
+
+  <link name="gps">
+  <visual>
+      <geometry>
+        <box size="0.05 0.05 0.02"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <joint name="center_to_gps" type="fixed">
+    <parent link="base_link"/>
+    <child link="gps"/>
+    <origin xyz="0.28 0.0 0.01"/>
+  </joint>
+
+  <link name="top_right_corner">
+  </link>
+
+  <joint name="center_to_top_right_corner" type="fixed">
+    <parent link="base_link"/>
+    <child link="top_right_corner"/>
+    <origin xyz="0.49 -0.24 0.0"/>
+  </joint>
+
+  <link name="top_left_corner">
+  </link>
+
+  <joint name="center_to_top_left_corner" type="fixed">
+    <parent link="base_link"/>
+    <child link="top_left_corner"/>
+    <origin xyz="0.49 0.24 0.0"/>
+  </joint>
+
+  <link name="down_right_corner">
+  </link>
+
+  <joint name="center_to_down_right_corner" type="fixed">
+    <parent link="base_link"/>
+    <child link="down_right_corner"/>
+    <origin xyz="-0.49 -0.24 0.0"/>
+  </joint>
+
+  <link name="down_left_corner">
+  </link>
+
+  <joint name="center_to_down_left_corner" type="fixed">
+    <parent link="base_link"/>
+    <child link="down_left_corner"/>
+    <origin xyz="-0.49 0.24 0.0"/>
+  </joint>
+
+  <!--link name="RTK_left_antenna">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+  </link>
+
+
+  <joint name="top_left_corner_to_RTK_left_antenna" type="fixed">
+    <parent link="top_left_corner"/>
+    <child link="RTK_left_antenna"/>
+    <origin xyz="0.00 0.0 0.35"/>
+  </joint>
+
+  <link name="RTK_right_antenna">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+  </link>
+
+
+  <joint name="down_right_corner_to_RTK_right_antenna" type="fixed">
+    <parent link="down_right_corner"/>
+    <child link="RTK_right_antenna"/>
+    <origin xyz="0.00 0.0 0.35"/>
+  </joint-->
+
+  <!-- Hokuyo Laser -->
+  <link name="laser">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://testbot_description/meshes/hokuyo.dae"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+<joint name="hokuyo_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="0.02 0 0.2" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="laser"/>
+  </joint>
+
+
+</robot>

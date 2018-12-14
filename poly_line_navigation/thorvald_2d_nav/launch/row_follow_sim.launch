@@ -1,0 +1,45 @@
+<!-- -*- xml -*- -->
+
+<launch>
+
+<arg name ="tmap" value="test"/>
+
+<!--THORVALD BRINGUP-->
+<include file = "$(find thorvald_2d_nav)/launch/3_magic_launch_files/rasberry_realtime.launch"/>
+
+<include file = "$(find thorvald_2d_nav)/launch/amcl.launch" />
+<!--include file = "$(find thorvald_2d_nav)/launch/thor_localization_map.launch" /-->
+
+<!--include file = "$(find thorvald_2d_nav)/launch/thor_localization.launch" /-->
+
+
+<node pkg="thorvald_2d_nav" type="poly_nav_planner" name="poly_nav_planner" output="screen"/>
+
+<!--node pkg="thorvald_2d_nav" type="poly_nav_controller" name="poly_nav_controller" output="screen"/-->
+
+<!--node pkg="thorvald_2d_nav" type="floy3_line_SLAM" name="floy3_line_SLAM" output="screen"/-->
+
+
+<include file = "$(find rasberry_move_base)/launch/move_base_dwa.launch" />
+
+<!--include file = "$(find waypoints_nmbu_sim)/launch/record_waypoints.launch" /-->
+
+<include file = "$(find waypoints_nmbu)/launch/navigate_waypoints_mb.launch" />
+
+<include file = "$(find topological_navigation)/launch/topological_navigation.launch">
+ <arg name="map" value="$(arg tmap)" />
+</include>
+
+<!--node pkg="thorvald_2d_nav" type="test_row_transition" name="test_row_transition" output="screen"/-->
+
+<!--node pkg="thorvald_2d_nav" type="simple_navigation_goals" name="simple_navigation_goals"/-->
+
+<!--node pkg="thorvald_2d_nav" type="fastSLAM" name="fastSLAM" output="screen"/-->
+
+<!--node pkg="thorvald_2d_nav" type="thorvald_line_SLAM" name="thorvald_line_SLAM"/-->
+
+
+<node pkg="rviz" type="rviz" name="rviz" args="-d $(find thorvald_2d_nav)/rviz/lincoln.rviz"/>
+
+
+</launch>

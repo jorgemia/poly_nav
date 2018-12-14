@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+  <arg name="robot_model" default="$(find thorvald_model)/config/thorvald_ii_4wd4ws_std/thorvald_ii_4wd4ws_std.yaml" />
+  <arg name="model_extras" default="$(find thorvald_model)/urdf/sensor_modules/sensor_frames_example.xacro" />
+
+
+  <!-- state publisher -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
+
+  <!-- create robot model -->
+  <!-- "inorder" so that file process in read order this allows conditional includes -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find thorvald_model)/urdf/thorvald_model.xacro' --inorder robot_config:='$(arg robot_model)' model_extras:='$(arg model_extras)'" />
+
+</launch>

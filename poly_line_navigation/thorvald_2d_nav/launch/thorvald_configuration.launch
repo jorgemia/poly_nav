@@ -1,0 +1,37 @@
+<launch>
+
+<include file="$(find testbot_description)/launch/urdf.launch" />
+
+<node name="serial_node" pkg="rosserial_python" type="serial_node.py" output="screen">
+</node>
+
+<node name="odometry_package_node" pkg="odometry_package" type="odometry_package_node" output="screen">
+</node>
+
+<param name="calibration" type="string" value="file://$(find velodyne_pointcloud)/tests/VLP-16.yaml" />
+
+<include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+
+<include file="$(find but_velodyne_proc)/launch/laserscan_nodelet.launch" />
+
+<include file="$(find xsens_driver)/launch/xsens_driver.launch" />
+
+<include file="$(find robot_localization)/launch/ekf_template.launch" />
+
+<node pkg="gmapping" type="slam_gmapping" name="gmapping_thing" output="screen">
+</node>
+
+  <!-- Publishes the voxel grid to rviz for display -->
+  <node pkg="costmap_2d" type="costmap_2d_markers" name="voxel_visualizer">
+    <remap from="voxel_grid" to="costmap/voxel_grid"/>
+  </node>
+
+  <!-- Run the costmap node -->
+  <node name="costmap_node" pkg="costmap_2d" type="costmap_2d_node" >
+    <rosparam file="$(find thorvald_2dnav)/costmap_common_params.yaml" command="load" ns="costmap" />
+  </node>
+
+<node pkg="robot_pose_publisher" type="robot_pose_publisher" name="robot_pose_publisher" output="screen">
+</node>
+
+</launch>

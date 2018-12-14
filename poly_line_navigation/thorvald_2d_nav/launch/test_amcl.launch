@@ -1,0 +1,25 @@
+<launch>
+
+<include file="$(find testbot_description)/launch/urdf.launch" />
+
+<node name="serial_node" pkg="rosserial_python" type="serial_node.py" output="screen">
+</node>
+
+<node name="odometry_package_node" pkg="odometry_package" type="odometry_package_node" output="screen">
+</node>
+
+<param name="calibration" type="string" value="file://$(find velodyne_pointcloud)/tests/VLP-16.yaml" />
+
+<include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+
+<include file="$(find but_velodyne_proc)/launch/laserscan_nodelet.launch" />
+
+<include file="$(find xsens_driver)/launch/xsens_driver.launch" />
+
+<include file="$(find robot_localization)/launch/ekf_template.launch" />
+
+<node pkg="gmapping" type="slam_gmapping" name="gmapping_thing" output="screen">
+</node>
+
+
+</launch>

@@ -1,0 +1,347 @@
+- meta:
+    map: norway_poles_sim_6_pts
+    node: WayPoint1
+    pointset: norway_poles_sim_6_pts 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint1_WayPoint2
+      node: WayPoint2
+    name: WayPoint1
+    pointset: NA
+    pose:
+      orientation:
+        w: 1.0
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      position:
+        x: 4.1000000000000085
+        y: 5.699999999999989
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+- meta:
+    map: norway_poles_sim_6_pts
+    node: WayPoint1
+    pointset: norway_poles_sim_6_pts 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint2_WayPoint3
+      node: WayPoint3
+    name: WayPoint2
+    pointset: NA
+    pose:
+      orientation:
+        w: 1.0
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      position:
+        x: 13.5
+        y: 5.6499999999999915
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+- meta:
+    map: norway_poles_sim_6_pts
+    node: WayPoint1
+    pointset: norway_poles_sim_6_pts 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint3_WayPoint4
+      node: WayPoint4
+    name: WayPoint3
+    pointset: NA
+    pose:
+      orientation:
+        w: 0.7071
+        x: 0.0
+        y: 0.0
+        z: -0.7071
+      position:
+        x: 24.50000000000001
+        y: 5.5999999999999915
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+    yaw_tolerance: 0.3 
+    xy_tolerance: 0.3             
+- meta:
+    map: norway_poles_sim_6_pts
+    node: WayPoint1
+    pointset: norway_poles_sim_6_pts 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint4_WayPoint5
+      node: WayPoint5
+    name: WayPoint4
+    pointset: NA
+    pose:
+      orientation:
+        w: 0.0
+        x: 0.0
+        y: 0.0
+        z: 1.0
+      position:
+        x: 24.50000000000001
+        y: 4.1499999999999915
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+    yaw_tolerance: 0.3 
+    xy_tolerance: 0.3  
+- meta:
+    map: norway_poles_sim_6_pts
+    node: WayPoint1
+    pointset: norway_poles_sim_6_pts 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint5_WayPoint6
+      node: WayPoint6
+    name: WayPoint5
+    pointset: NA
+    pose:
+      orientation:
+        w: 0.0
+        x: 0.0
+        y: 0.0
+        z: 1.0
+      position:
+        x: 13.5
+        y: 4.099999999999994
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+- meta:
+    map: norway_poles_sim_6_pts
+    node: WayPoint1
+    pointset: norway_poles_sim_6_pts 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint6_WayPoint7
+      node: WayPoint7
+    name: WayPoint6
+    pointset: NA
+    pose:
+      orientation:
+        w: 0.707
+        x: 0.0
+        y: 0.0
+        z: -0.707
+      position:
+        x: 2.500000000000085
+        y: 4.25
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+    yaw_tolerance: 0.3 
+    xy_tolerance: 0.3  
+- meta:
+    map: norway_poles_sim_6_pts
+    node: WayPoint1
+    pointset: norway_poles_sim_6_pts 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint7_WayPoint8
+      node: WayPoint8
+    name: WayPoint7
+    pointset: NA
+    pose:
+      orientation:
+        w: 1.0
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      position:
+        x: 2.500000000000085
+        y: 2.8499999999999943
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+    yaw_tolerance: 0.3 
+    xy_tolerance: 0.3  
+- meta:
+    map: norway_poles_sim_6_pts
+    node: WayPoint1
+    pointset: norway_poles_sim_6_pts 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint8_WayPoint9
+      node: WayPoint9
+    name: WayPoint8
+    pointset: NA
+    pose:
+      orientation:
+        w: 1.0
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      position:
+        x: 13.550000000000011
+        y: 2.6999999999999886
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+- meta:
+    map: norway_poles_sim_6_pts
+    node: WayPoint1
+    pointset: norway_poles_sim_6_pts 
+  node:
+    edges: []
+    name: WayPoint9
+    pointset: NA
+    pose:
+      orientation:
+        w: 1.0
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      position:
+        x: 23.900000000000006
+        y: 2.4499999999999886
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477

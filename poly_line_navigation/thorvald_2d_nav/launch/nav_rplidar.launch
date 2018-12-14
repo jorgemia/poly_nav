@@ -1,0 +1,36 @@
+<!-- -*- xml -*- -->
+
+<launch>
+
+<arg name ="gui" default ="False" />
+<param name="use_sim_time" value="false" />
+
+<param name="robot_description" command="cat $(find thorvald_2d_nav)/urdf/trolley.urdf" />
+
+<param name ="use_gui" value ="$(arg gui)" />
+
+<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+</node>
+<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+<include file="$(find rplidar_ros)/launch/view_rplidar.launch" />
+
+<node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+    <rosparam command="load" file="$(find thorvald_2d_nav)/config/my_laser_config.yaml" />
+</node>
+
+<!--node pkg="thorvald_2d_nav" type="thorvald_laserscan" name="thorvald_laserscan" /-->
+
+<!--node pkg="thorvald_2d_nav" type="lab_rat" name="lab_rat" /-->
+
+<!--node pkg="thorvald_2d_nav" type="thorvald_line_SLAM" name="thorvald_line_SLAM" /-->
+
+<!--node pkg="gmapping" type="slam_gmapping" name="gmapping_thing" output="screen">
+  <remap from="scan" to="scan" />
+  <param name="odom_frame" value="odom" />
+  <param name="base_frame" value="base_link" />
+</node-->
+
+<!--node pkg="rviz" type="rviz" name="rviz" args="-d $(find /home/vignesh/catkin_ws/src/thorvald_2d_nav/record_scan_config.rviz"/-->
+
+</launch>

@@ -1,0 +1,17 @@
+<launch>
+ 
+  <include file="$(find openni_launch)/launch/openni.launch" />
+
+  <!-- Running the image_view node -->
+  <param name="save_all_image" value="false" />
+  <param name="filename_format" value="%04i.jpg" />
+
+ <!--node name="image_saver" pkg="image_view" type="image_saver">
+     <remap from="image" to= "/camera/rgb/image_color" />
+ </node-->
+
+  <!-- Client Node for calling Rosservice Save -->
+ <node name="kinect_client" pkg="thorvald_2dnav" type="kinect_client" >
+ </node>
+
+</launch>

@@ -1,0 +1,6 @@
+image: empty.png
+resolution: 0.092
+origin: [-37.26, -49.404, 0.0]
+occupied_thresh: 0.85
+free_thresh: 0.50
+negate: 0

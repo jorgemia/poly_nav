@@ -1,0 +1,9 @@
+#goal definition
+int64 timeOut 
+---
+#result definition
+int64 dummy 
+---
+#feedback definition
+int64 dummy2
+

@@ -1,0 +1,14 @@
+<launch>
+
+  <include file="$(find rplidar_ros)/launch/view_rplidar.launch" />
+
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+    <rosparam command="load" file="$(find thorvald_2d_nav)/config/my_laser_config.yaml" />
+    <!--remap from="scan" to="base_scan" /-->
+  </node>
+
+  <!--node pkg="thorvald_ii_control" type="laserscan_inf_max_range" name="laserscan_inf_max_range" /-->
+
+  <!--node pkg="thorvald_2d_nav" type="thorvald_laserscan" name="thorvald_laserscan" /-->
+
+</launch>
