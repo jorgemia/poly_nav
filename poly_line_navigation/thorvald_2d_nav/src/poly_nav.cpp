@@ -1,16 +1,6 @@
 #include "poly_nav.h"
 
 Ransac::Ransac(){
- 
-  if(one_time==0){
-   for(int re=0;re<=3;re++){ 
-   line_[n].x = 0;
-   line_[n].y = 0;  
-   line_trans_[n].x = 0;
-   line_trans_[n].y = 0;
-   } 
-   one_time = 1;
-  }
 
   // Subscribers
   scan_sub = nh_.subscribe("scan_filtered", 100, &Ransac::scanCallback, this);
@@ -163,7 +153,6 @@ bool Ransac::row_transition(thorvald_2d_nav::sub_goal::Request &req, thorvald_2d
      ROS_INFO("Next Row");
      row_transit_mode = row_transit_mode + 1;
      row_follow_mode = true;
-     one_time = 0;
      line_count = 0;
      return true;
    }
@@ -185,27 +174,28 @@ void Ransac::create_markers(int id_no){
 void Ransac::publish_markers(){
 
   if((both_lines_found==true)){
-  transformStamped.transform.translation.x = hokuyo_pose.position.x;
-  transformStamped.transform.translation.y = hokuyo_pose.position.y;
-  transformStamped.transform.translation.z = hokuyo_pose.position.z;
-  transformStamped.transform.rotation.x = hokuyo_pose.orientation.x;
-  transformStamped.transform.rotation.y = hokuyo_pose.orientation.y;
-  transformStamped.transform.rotation.z = hokuyo_pose.orientation.z;
-  transformStamped.transform.rotation.w = hokuyo_pose.orientation.w;
+  
+   transformStamped.transform.translation.x = hokuyo_pose.position.x;
+   transformStamped.transform.translation.y = hokuyo_pose.position.y;
+   transformStamped.transform.translation.z = hokuyo_pose.position.z;
+   transformStamped.transform.rotation.x = hokuyo_pose.orientation.x;
+   transformStamped.transform.rotation.y = hokuyo_pose.orientation.y;
+   transformStamped.transform.rotation.z = hokuyo_pose.orientation.z;
+   transformStamped.transform.rotation.w = hokuyo_pose.orientation.w;
 
-  for(int ic=0; ic<4; ic++){ tf2::doTransform(line_[ic], line_trans_[ic], transformStamped); } // Switch from Hokuyo frame to Map Frame
-
+   for(int ic=0; ic<4; ic++){ tf2::doTransform(line_[ic], line_trans_[ic], transformStamped); } // Switch from Hokuyo frame to Map Frame
   } // both the lines found check
 
-    for(int i=0; i<=1; i++) { 
+   for(int i=0; i<=1; i++){ 
     create_markers(i); // function for creating the line markers
     line_strip[i].points[0] = line_trans_[2*i];
     line_strip[i].points[1] = line_trans_[(2*i)+1];
     if(i==0) marker_pub_1.publish(line_strip[i]); // publish the detected line 1
     if(i==1) marker_pub_2.publish(line_strip[i]); // publish the detected line 2 
-    } 
+   } 
 
     landmark_check = landmark_check + 1;
+
 }
 
 void Ransac::end_line_reached(){
@@ -218,18 +208,22 @@ void Ransac::end_line_reached(){
      else Points[i].position.x = ((thorvald_pose.position.x) * (1-(float(i)/Total_Points))) + ((line_strip[1].points[1].x + tolerance) * (float(i)/Total_Points));
     }
    }
-        
+
    if(std::fabs(Points[Total_Points].position.x - thorvald_pose.position.x) <= 0.3) {
 
-     end_row_check.request.counter = 1;  // call the service for row transition mode
+     end_row_check.request.counter = true;  // call the service for row transition mode
      if (client.call(end_row_check)) ROS_INFO("Final Mini-Goal Reached");
          
-     for (int els=0;els<3;els++){ line_strip[els] = empty_line_strip[els]; }
+      for (int els=0;els<3;els++){ 
+       line_strip[els] = empty_line_strip[els];
+       line_[els] = empty_line_[els]; 
+       line_trans_[els] = empty_line_trans[els]; 
+      }
      row_follow_mode = false;
      }
 
      stop:
-     both_lines_found = false;
+     both_lines_found = false;        
 }
 
 void Ransac::move(){

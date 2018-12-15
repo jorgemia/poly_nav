@@ -30,19 +30,20 @@ size_t num_ranges;
 int max_laser_range = 4.0;
 sensor_msgs::LaserScan scan_msg_main;
 struct Line { double m; double b; }; // Our "model".
+Line model;
 struct Point { double real_x; double real_y;}; // Our "data".
 Point best_inlier_set[720];
 Point current_best_inlier_set[720];
-Line model;
+
 
 // initialization
 geometry_msgs::Pose thorvald_pose, hokuyo_pose;
-geometry_msgs::Point line_[4], line_trans_[4];
+geometry_msgs::Point line_[4], line_trans_[4], empty_line_[4], empty_line_trans[4];
 geometry_msgs::TransformStamped transformStamped;
 visualization_msgs::Marker line_strip[2], empty_line_strip[2];
-double x[720] = {0}, y[720] = {0}, theta[720] = {0}, scan_pts_index_array[720] = {0}, yaw = 0, error = 0, d_line = 0, d_ther = 0.2, w_p = 0.1, w_b = 0.1;
+double x[720] = {0}, y[720] = {0}, theta[720] = {0}, scan_pts_index_array[720] = {0}, yaw = 0, error = 0;
 int s_pt = 0, line_1_pt_1 = 0, line_1_pt_2 = 0, aIndex_1 = 0, aIndex_2 = 0, bIndex_1 = 0, bIndex_2 = 0;
-int n = 0, index_no = 0, total_pts = 0, best_no_inliers = 0, first_pt = 0, second_pt = 0, row_transit_mode = 0, one_time = 0, landmark_check = 0;
+int n = 0, index_no = 0, total_pts = 0, best_no_inliers = 0, first_pt = 0, second_pt = 0, row_transit_mode = 0, landmark_check = 0;
 bool one_line_found = false, both_lines_found = false, row_follow_mode = true;
 
 //Controller Parameters
