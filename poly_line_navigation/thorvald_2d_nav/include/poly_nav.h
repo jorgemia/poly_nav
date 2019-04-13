@@ -24,10 +24,10 @@ class Ransac{
 public:
 // RANSAC Parameters 
 int k = 100; // iterations need to find the best model
-double thershold = 0.05;
+double thershold = 1.0; //0.05
 int d = 10; // nearby point to fit the line
 size_t num_ranges;
-int max_laser_range = 4.0;
+int max_laser_range = 6.0;
 sensor_msgs::LaserScan scan_msg_main;
 struct Line { double m; double b; }; // Our "model".
 Line model;

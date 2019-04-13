@@ -214,7 +214,7 @@ void Ransac::create_markers(int id_no){
       line_strip[id_no].pose.position.z = 0.0;
       line_strip[id_no].type = visualization_msgs::Marker::LINE_STRIP;
       line_strip[id_no].lifetime = ros::Duration(0.1);
-      line_strip[id_no].scale.x = 0.05;
+      line_strip[id_no].scale.x = 0.05; 
       if((id_no==0)||(id_no==1)) line_strip[id_no].color.b = 1.0;
       if(id_no==2) line_strip[id_no].color.r = 1.0;
       line_strip[id_no].color.a = 1.0;

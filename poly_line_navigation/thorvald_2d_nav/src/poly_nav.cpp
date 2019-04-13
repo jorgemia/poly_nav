@@ -46,7 +46,7 @@ void Ransac::scanCallback(const sensor_msgs::LaserScan::ConstPtr &scan_msg) {
      x[i_1] = scan_msg_main.ranges[i_1] * cos(theta[i_1]);
      y[i_1] = scan_msg_main.ranges[i_1] * sin(theta[i_1]); 
 
-    if (!std::isnan(x[i_1]) && !std::isnan(y[i_1]) && (scan_msg_main.ranges[i_1] < max_laser_range) && (std::fabs(y[i_1])<2.0)){
+    if (!std::isnan(x[i_1]) && !std::isnan(y[i_1]) && (scan_msg_main.ranges[i_1] < max_laser_range) && (std::fabs(y[i_1])<6.0)){ //2.0
       scan_pts_index_array[s_pt] = i_1;
       s_pt = s_pt + 1;
      }  // storing the ith value with pre-conditions

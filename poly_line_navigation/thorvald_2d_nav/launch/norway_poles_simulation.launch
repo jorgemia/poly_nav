@@ -14,7 +14,7 @@
   <arg name="model_extras" default="$(find thorvald_model)/urdf/sensor_modules/sensor_frames_lincoln.xacro" />
   <arg name="with_actors" default="false"/> <!-- Include actors in the Gazebo world? -->
 
-  <arg name="world_name" default="norway_poles_spawned"/>
+  <arg name="world_name" default="complete_curved_poles_walled"/> #norway_poles_spawned 
 
   <!-- Launch the Gazebo world.  -->
   <include file="$(find thorvald_2d_nav)/launch/world.launch">

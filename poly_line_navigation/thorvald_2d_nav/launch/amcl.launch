@@ -2,8 +2,8 @@
 
 <launch>
 
-<arg name="map_file" default="$(find thorvald_2d_nav)/maps/floy3_sim.yaml"/>
-<!--arg name="map_file" default="$(find thorvald_2d_nav)/maps/complete_curved_poles.yaml"/-->
+<!--arg name="map_file" default="$(find thorvald_2d_nav)/maps/floy3_sim.yaml"/-->
+<arg name="map_file" default="$(find thorvald_2d_nav)/maps/complete_curved_poles.yaml"/>
 
 <!-- Run the map server -->
 <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
@@ -26,8 +26,8 @@
         <param name="gui_publish_rate" value="10.0"/>
 
 		<!--initial pose --> 
-        <param name="initial_pose_x" value="3.5"/>
-        <param name="initial_pose_y" value="5.638"/>
+        <param name="initial_pose_x" value="4.0"/>
+        <param name="initial_pose_y" value="5.438"/>
         <param name="initial_pose_a" value="0.0"/>
         <param name="initial_cov_xx" value="0.0"/>
         <param name="initial_cov_yy" value="0.0"/>
