@@ -1,8 +1,0 @@
-# Define the goal
-uint32 goal_id  # Specify goal id
----
-# Define the result
-uint32 goal_reach_status
----
-# Define a feedback message
-float32 goal_current_status
