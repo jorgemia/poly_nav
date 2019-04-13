@@ -1,9 +1,15 @@
-<!-- -*- xml -*- -->
+<?xml version="1.0"?>
 
 <launch>
 
-<!--arg name="map_file" default="$(find thorvald_2d_nav)/maps/floy3_sim.yaml"/-->
-<arg name="map_file" default="$(find thorvald_2d_nav)/maps/complete_curved_poles.yaml"/>
+  <arg name="initial_pose_x" default="4.5"/>
+  <arg name="initial_pose_y" default="5.4"/>
+  <arg name="initial_pose_a" default="0.0"/>
+
+  <arg name="initial_cov_xx" default="0.0"/>
+  <arg name="initial_cov_yy" default="0.0"/>
+  <arg name="initial_cov_aa" default="0.0"/>
+  <arg name="map_file" default="$(find thorvald_2d_nav)/maps/complete_curved_poles.yaml"/>
 
 <!-- Run the map server -->
 <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
@@ -25,13 +31,13 @@
         <param name="recovery_alpha_fast" value="0.0"/>
         <param name="gui_publish_rate" value="10.0"/>
 
-		<!--initial pose --> 
-        <param name="initial_pose_x" value="4.0"/>
-        <param name="initial_pose_y" value="5.438"/>
-        <param name="initial_pose_a" value="0.0"/>
-        <param name="initial_cov_xx" value="0.0"/>
-        <param name="initial_cov_yy" value="0.0"/>
-        <param name="initial_cov_aa" value="0.0"/>
+		<!--robot initial pose-->
+  	<param name="initial_pose_x" value="$(arg initial_pose_x)"/>
+	<param name="initial_pose_y" value="$(arg initial_pose_y)"/>
+	<param name="initial_pose_a" value="$(arg initial_pose_a)"/>
+	<param name="initial_cov_xx" value="$(arg initial_cov_xx)"/>
+	<param name="initial_cov_yy" value="$(arg initial_cov_yy)"/>
+	<param name="initial_cov_aa" value="$(arg initial_cov_aa)"/>
 
 		<!-- laser model -->
         <param name="laser_max_beams" value="60"/> 

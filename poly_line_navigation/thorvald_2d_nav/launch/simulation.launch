@@ -1,0 +1,35 @@
+<!-- -*- xml -*- -->
+
+<launch>
+
+<arg name ="world" value="norway_curved_poles"/>
+<arg name="topo_map" default="norway_poles_sim_6_pts" />
+
+<!--THORVALD BRINGUP-->
+<include file = "$(find thorvald_2d_nav)/launch/robot_bringup.launch">
+  <arg name="world_name" value="$(arg world)" />
+</include>
+
+<!--LASER FILTERS-->
+<node pkg="laser_filters" type="scan_to_scan_filter_chain" name="scan_to_scan_filter_chain">
+    <rosparam command="load" file="$(find thorvald_2d_nav)/config/my_laser_config.yaml" />
+</node>
+
+<include file = "$(find thorvald_2d_nav)/launch/amcl.launch" />
+
+<!--node pkg="thorvald_2d_nav" type="poly_nav" name="poly_nav" output="screen"/-->
+<!--node pkg="thorvald_2d_nav" type="hokuyo_pose_publisher" name="hokuyo_pose_publisher" output="screen"/-->
+
+<include file = "$(find thorvald_2d_nav)/launch/move_base_dwa.launch" />
+
+<include file="$(find mongodb_store)/launch/mongodb_store.launch">
+  <arg name="db_path" value="/home/saga/mongodb/"/>
+</include>
+
+<include file="$(find topological_navigation)/launch/topological_navigation.launch" >
+ <arg name="map" value="$(arg topo_map)" />
+</include> 
+
+<node pkg="rviz" type="rviz" name="rviz" args="-d $(find thorvald_2d_nav)/rviz/lincoln.rviz"/>
+
+</launch>
