@@ -5,6 +5,9 @@
 <arg name ="world" value="norway_curved_poles"/>
 <arg name="topo_map" default="norway_poles_sim_6_pts" />
 
+<arg name="initial_pose_x" default="4.5"/>
+<arg name="initial_pose_y" default="5.4"/>
+
 <!--THORVALD BRINGUP-->
 <include file = "$(find thorvald_2d_nav)/launch/robot_bringup.launch">
   <arg name="world_name" value="$(arg world)" />
@@ -12,12 +15,16 @@
 
 <!--LASER FILTERS-->
 <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="scan_to_scan_filter_chain">
-    <rosparam command="load" file="$(find thorvald_2d_nav)/config/my_laser_config.yaml" />
+    <rosparam command="load" file="$(find thorvald_2d_nav)/config/laser_config.yaml" />
 </node>
 
-<include file = "$(find thorvald_2d_nav)/launch/amcl.launch" />
+<include file = "$(find thorvald_2d_nav)/launch/amcl.launch">
+  <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
+  <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
+</include>
 
-<!--node pkg="thorvald_2d_nav" type="poly_nav" name="poly_nav" output="screen"/-->
+<node pkg="thorvald_2d_nav" type="poly_nav" name="poly_nav" output="screen"/>
+
 <!--node pkg="thorvald_2d_nav" type="hokuyo_pose_publisher" name="hokuyo_pose_publisher" output="screen"/-->
 
 <include file = "$(find thorvald_2d_nav)/launch/move_base_dwa.launch" />

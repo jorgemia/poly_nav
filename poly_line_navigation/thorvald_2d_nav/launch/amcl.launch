@@ -9,7 +9,7 @@
   <arg name="initial_cov_xx" default="0.0"/>
   <arg name="initial_cov_yy" default="0.0"/>
   <arg name="initial_cov_aa" default="0.0"/>
-  <arg name="map_file" default="$(find thorvald_2d_nav)/maps/complete_curved_poles.yaml"/>
+  <arg name="map_file" default="$(find thorvald_2d_nav)/maps/norway_curved_poles.yaml"/>
 
 <!-- Run the map server -->
 <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
@@ -17,7 +17,7 @@
 <node pkg="amcl" type="amcl" name="amcl" output="screen">
 
     <remap from="scan" to="scan_filtered" />
-    <!-- see param description on http://www.ros.org/wiki/amcl -->     
+    <!-- see param description on http://www.ros.org/wiki/amcl -->
 		<!--overall filter -->
         <param name="min_particles" value="100"/>
         <param name="max_particles" value="5000"/>
@@ -40,7 +40,7 @@
 	<param name="initial_cov_aa" value="$(arg initial_cov_aa)"/>
 
 		<!-- laser model -->
-        <param name="laser_max_beams" value="60"/> 
+        <param name="laser_max_beams" value="60"/>
         <param name="laser_z_hit" value="0.95"/>
         <param name="laser_z_short" value="0.1"/>
         <param name="laser_z_max" value="0.05"/>
