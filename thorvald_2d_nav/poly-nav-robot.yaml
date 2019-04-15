@@ -1,0 +1,109 @@
+---
+init_cmd: |
+  #exec /bin/bash
+  set -o pipefail
+  function export_default () {
+    var_name="$1"
+    var_default="$2"
+    eval $var_name="${!var_name:-$var_default}"
+    #eval $var_name="${var_default}"
+    export $var_name
+    echo "  $0 -> $var_name=${!var_name}"
+  }
+  
+  # Network configuration
+  default_iface=`route -n | grep "^10.8" | tr -s " " |  cut -f8 -d" " || echo lo`
+  default_ip=`ip addr show dev "$default_iface" | grep "inet " | sed 's@ *inet \([0-9\.]*\).*@\1@' || echo 127.0.0.1`
+
+  export_default USE_VPN false # Use local IP to get big data stream incl. velodyne 
+  if ! $USE_VPN; then
+    # set ROS_MASTER to the preset local IP
+    export_default ROS_MASTER 192.168.1.55
+    # set ROS_IP not to the IP that we will connect to remotely
+    export_default ROS_IP 192.168.1.55
+  else
+    # set ROS_MASTER to the correct IP
+    export_default ROS_MASTER $default_ip
+    # set ROS_IP not to the IP that we will connect to remotely
+    export_default ROS_IP `ip route get $ROS_MASTER | grep "src" | sed 's/.*src \([0-9\.]*\).*/\1/' || echo $ROS_MASTER`  
+  fi
+
+  export_default ROS_MASTER_URI http://$ROS_MASTER:11311/
+  export_default ROSBRIDGE_IP "10.8.0.4"
+  export_default ROSBRIDGE_PORT "9090"
+  # set ROS_HOSTNAME to the ROS_IP to avoid configuring /etc/hosts for anyone who connects
+  export_default ROS_HOSTNAME "$ROS_IP"
+
+  # source ROS
+  source "/opt/ros/kinetic/setup.bash"
+  export_default CATKIN_WORKSPACE "`echo $HOME/rasberry_ws`"
+  source "$CATKIN_WORKSPACE/devel/setup.bash"
+
+  export_default BASE_CONFIG_DIR `readlink -f . || echo .`
+  export_default ROBOT_NAME `hostname | tr "-" "_" | tr "." "_"`
+  export_default SCENARIO_NAME "default"
+  
+  # figure out the robot number from the hostname, assuming it is like `thorvald-XXX`
+  export_default ROBOT_NO `hostname | cut -f2 -d"-"`
+
+  # load robot-specific config file
+  if [ -r "$BASE_CONFIG_DIR/$ROBOT_NAME.sh" ]; then echo "*** loading $BASE_CONFIG_DIR/$ROBOT_NAME.sh" ; source "$BASE_CONFIG_DIR/$ROBOT_NAME.sh"; fi
+  # load scenario-specific config file
+  if [ -r "$BASE_CONFIG_DIR/$SCENARIO_NAME.sh" ]; then echo "*** loading $BASE_CONFIG_DIR/$SCENARIO_NAME.sh" ; source "$BASE_CONFIG_DIR/$SCENARIO_NAME.sh"; fi  # configure the development workspace (assuming we are in rasberry_bringup/tmule)
+  # set the robot type
+  export_default ROBOT_TYPE "thorvald_ii_4wd4ws_slim"
+  
+  # Enable/Disable sensors 
+  export_default USE_HOKUYO true
+  export_default USE_IMU false
+  export_default USE_GPS false
+  export_default USE_VELODYNE false
+  export_default POLY_NAV false
+  export_default USE_MOVE_BASE false
+  
+  # Task specific?
+  export_default USE_TOPO_MAP false 
+  export_default LOAD_LOCAL_TOPO_MAP false # To have a topological map without a coordination server. This requires an existing topo map on onboard NUC. 
+  export_default USE_COORDINATE_SERVER false
+  export_default CREATE_NEW_MAP true
+  
+  export_default MONGO_PATH "$HOME/mongodb-rasberry"
+  export_default TMAP Norway_case_2
+  export_default MAP "$(rospack find thorvald_2d_nav)/maps/norway_curved_poles.yaml"
+
+windows:
+- name: init
+  panes:
+  - roscore
+  - sleep 3; if [ -r "$BASE_CONFIG_DIR/$ROBOT_NAME.yaml" ]; then rosparam load "$BASE_CONFIG_DIR/$ROBOT_NAME.yaml"; fi
+  - sleep 3; if $USE_COORDINATE_SERVER; then mkdir -p "$HOME/mongodb" && roslaunch mongodb_store mongodb_store.launch db_path:="$HOME/mongodb"; else roslaunch mongodb_store mongodb_store.launch db_path:=$MONGO_PATH ; fi
+  - sleep 6; if $LOAD_LOCAL_TOPO_MAP; then roslaunch rasberry_navigation topological_map_manager_central.launch map:=$TMAP; fi
+- name: robot
+  panes:
+  - roslaunch rasberry_bringup robot_bringup.launch robot_model:=$(rospack find rasberry_bringup)/config/norway_robot_$ROBOT_NO.yaml model_extras:=$(rospack find rasberry_bringup)/urdf/norway_robot_${ROBOT_NO}_sensors.xacro simple_sim:=false with_teleoperation:=true
+  - if $USE_HOKUYO; roslaunch rasberry_bringup hokuyo.launch; 
+  #- rosrun tf static_transform_publisher 3.169 5.278 0.0 0.0 0.0 0.0 1.0 world odom 1000
+  #- if $USE_GPS; then roslaunch rasberry_bringup gps.launch; fi
+  #- if $USE_VELODYNE; then roslaunch velodyne_launch VLP-16.launch; fi # roslaunch rasberry_bringup velodyne.launch
+  - if $USE_IMU; then roslaunch rasberry_bringup xsens_driver.launch; fi
+- name: localisation
+  panes:
+#  - rosrun persistent_topics single_channel_persistent_topics_node _topics:="['/topological_map']" _file_name:="/tmp/rasberry.ptb"  
+  - if ! $CREATE_NEW_MAP; then roslaunch rasberry_move_base map_server.launch map:="$MAP"; else rosrun gmapping slam_gmapping; fi
+#  - if $CREATE_NEW_MAP; then rosrun gmapping slam_gmapping; fi
+  - roslaunch rasberry_navigation rasberry_localisation.launch use_imu:="$USE_IMU" use_gps:="$USE_GPS" creating_map:="$CREATE_NEW_MAP" amcl_init_x:="0.0" amcl_init_y:="0.0" amcl_init_a:="0.0"
+- name: navigation
+  panes:
+  - roslaunch rasberry_move_base move_base_dwa.launch move_base_active:="$USE_MOVE_BASE" #roslaunch rasberry_move_base move_base_teb.launch
+  - if $USE_TOPO_MAP; then roslaunch rasberry_navigation topological_navigation_robot.launch move_base_reconf_service:=DWAPlannerROS; fi
+#  - rosrun topological_navigation visualise_map.py "$TMAP"
+- name: coordination_robot
+  panes:
+  - if $USE_COORDINATE_SERVER; then roslaunch rasberry_coordination robot_websocket_adapter.launch robot_name:=$ROBOT_NAME rosbridge_ip:=$ROSBRIDGE_IP rosbridge_port:=$ROSBRIDGE_PORT; fi
+- name: dataset_recording
+  panes:
+#  - DISPLAY=:0 rviz -d $(rospack find rasberry_bringup)/resources/topological_navigation.rviz
+  - sleep 1 
+- name: line_following
+  panes:
+  - sleep 1; source $HOME/poly_nav_ws/devel/setup.bash; roslaunch thorvald_2d_nav poly_nav.launch poly_nav:="$POLY_NAV"

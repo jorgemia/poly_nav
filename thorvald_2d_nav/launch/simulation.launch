@@ -37,6 +37,6 @@
  <arg name="map" value="$(arg topo_map)" />
 </include> 
 
-<node pkg="rviz" type="rviz" name="rviz" args="-d $(find thorvald_2d_nav)/rviz/lincoln.rviz"/>
+<node pkg="rviz" type="rviz" name="rviz" args="-d $(find thorvald_2d_nav)/rviz/jfr.rviz"/>
 
 </launch>

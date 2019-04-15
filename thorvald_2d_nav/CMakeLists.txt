@@ -67,7 +67,6 @@ add_message_files(
  add_service_files(
    DIRECTORY srv
    FILES
-   GpsSwitch.srv
    sub_goal.srv
  )
 
@@ -172,12 +171,6 @@ include_directories(${PYTHON_INCLUDE_DIRS})
  add_executable(poly_nav_RANSAC_new src/poly_nav_RANSAC_new.cpp)
  target_link_libraries(poly_nav_RANSAC_new ${catkin_LIBRARIES})
 
- #add_executable(poly_nav_control src/poly_nav_control.cpp)
- #target_link_libraries(poly_nav_control ${catkin_LIBRARIES})
-
- #add_executable(poly_nav_line_SLAM src/poly_nav_line_SLAM.cpp)
- #target_link_libraries(poly_nav_line_SLAM ${catkin_LIBRARIES})
-
  add_executable(poly_nav_row_transition src/poly_nav_row_transition.cpp)
  target_link_libraries(poly_nav_row_transition ${catkin_LIBRARIES})
 
@@ -195,11 +188,8 @@ include_directories(${PYTHON_INCLUDE_DIRS})
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(poly_nav ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
 #add_dependencies(poly_nav_RANSAC ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(poly_nav_RANSAC_new ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-#add_dependencies(poly_nav_control ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-#add_dependencies(poly_nav_line_SLAM ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(poly_nav_row_transition ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(odom_pose_publisher ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(hokuyo_pose_publisher ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
