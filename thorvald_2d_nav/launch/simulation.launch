@@ -4,6 +4,7 @@
 
 <arg name ="world" value="norway_curved_poles"/>
 <arg name="topo_map" default="norway_poles_sim_6_pts" />
+<arg name="map_file" default="$(find thorvald_2d_nav)/maps/norway_curved_poles_sim.yaml"/>
 
 <arg name="initial_pose_x" default="4.5"/>
 <arg name="initial_pose_y" default="5.4"/>
@@ -21,11 +22,12 @@
 <include file = "$(find thorvald_2d_nav)/launch/amcl.launch">
   <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
   <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
+  <arg name="map_file" value="$(arg map_file)"/>
 </include>
 
-<node pkg="thorvald_2d_nav" type="poly_nav" name="poly_nav" output="screen"/>
+<node pkg="thorvald_2d_nav" type="poly_nav_row_following" name="poly_nav_row_following" output="screen"/>
 
-<!--node pkg="thorvald_2d_nav" type="hokuyo_pose_publisher" name="hokuyo_pose_publisher" output="screen"/-->
+<node pkg="thorvald_2d_nav" type="poly_nav_row_transition" name="poly_nav_row_transition" output="screen"/>
 
 <include file = "$(find thorvald_2d_nav)/launch/move_base_dwa.launch" />
 

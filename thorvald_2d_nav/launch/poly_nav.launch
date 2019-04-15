@@ -5,9 +5,8 @@
 <arg name="poly_nav" default="true" />
 <param name="use_sim_time" value="true" />
 
-  <node pkg="thorvald_2d_nav" type="poly_nav_RANSAC_new" name="poly_nav_RANSAC_new" output="screen" if="$(arg poly_nav)"/>
+  <node pkg="thorvald_2d_nav" type="poly_nav_row_following" name="poly_nav_row_following" output="screen" if="$(arg poly_nav)"/>
   <node pkg="thorvald_2d_nav" type="poly_nav_row_transition" name="poly_nav_row_transition" output="screen" if="$(arg poly_nav)"/>
-  <node pkg="thorvald_2d_nav" type="odom_pose_publisher" name="odom_pose_publisher" output="screen"/>
-  <node pkg="thorvald_2d_nav" type="hokuyo_pose_publisher" name="hokuyo_pose_publisher" output="screen"/>
+  <node pkg="thorvald_2d_nav" type="hokuyo_pose_publisher" name="hokuyo_pose_publisher" output="screen" if="$(arg poly_nav)"/>
 
 </launch>
