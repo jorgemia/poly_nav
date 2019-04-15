@@ -165,9 +165,6 @@ include_directories(${PYTHON_INCLUDE_DIRS})
  add_executable(poly_nav src/poly_nav.cpp)
  target_link_libraries(poly_nav ${catkin_LIBRARIES})
 
- #add_executable(poly_nav_RANSAC src/poly_nav_RANSAC.cpp)
- #target_link_libraries(poly_nav_RANSAC ${catkin_LIBRARIES})
-
  add_executable(poly_nav_RANSAC_new src/poly_nav_RANSAC_new.cpp)
  target_link_libraries(poly_nav_RANSAC_new ${catkin_LIBRARIES})
 
@@ -180,20 +177,15 @@ include_directories(${PYTHON_INCLUDE_DIRS})
  add_executable(hokuyo_pose_publisher src/hokuyo_pose_publisher.cpp)
  target_link_libraries(hokuyo_pose_publisher ${catkin_LIBRARIES} ${PYTHON_LIBRARIES})
 
- add_executable(obstacle_publisher src/obstacle_publisher.cpp)
- target_link_libraries(obstacle_publisher ${catkin_LIBRARIES} ${PYTHON_LIBRARIES})
-
 ## Declare a C++ executable
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(poly_nav ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-#add_dependencies(poly_nav_RANSAC ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(poly_nav_RANSAC_new ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(poly_nav_row_transition ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(odom_pose_publisher ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(hokuyo_pose_publisher ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(obstacle_publisher ${${thorvald_2d_nav}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(thorvald_2dnav_node

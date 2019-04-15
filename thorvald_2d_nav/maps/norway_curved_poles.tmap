@@ -1,0 +1,342 @@
+- meta:
+    map: norway_curved_poles
+    node: WayPoint1
+    pointset: norway_curved_poles 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint1_WayPoint2
+      node: WayPoint2
+    name: WayPoint1
+    pointset: NA
+    pose:
+    pose:
+      orientation:
+        w: 1.0
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      position:
+        x: 10.450000000000003
+        y: 10.949999999999989
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+- meta:
+    map: norway_curved_poles
+    node: WayPoint2
+    pointset: norway_curved_poles 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint2_WayPoint3
+      node: WayPoint3
+    name: WayPoint2
+    pointset: NA
+    pose:
+    pose:
+      orientation:
+        w: 1.0
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      position:
+        x: 22.5
+        y: 11.699999999999989
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+- meta:
+    map: norway_curved_poles
+    node: WayPoint3
+    pointset: norway_curved_poles 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint3_WayPoint4
+      node: WayPoint4
+    name: WayPoint3
+    pointset: NA
+    pose:
+    pose:
+      orientation:
+        w: 1.0
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      position:
+        x: 34.20000000000002
+        y: 13.799999999999997
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+- meta:
+    map: norway_curved_poles
+    node: WayPoint4
+    pointset: norway_curved_poles 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint4_WayPoint5
+      node: WayPoint5
+    name: WayPoint4
+    pointset: NA
+    pose:
+    pose:
+      orientation:
+        w: 1.0
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      position:
+        x: 34.400000000000006
+        y: 12.349999999999994
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+- meta:
+    map: norway_curved_poles
+    node: WayPoint5
+    pointset: norway_curved_poles 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint5_WayPoint6
+      node: WayPoint6
+    name: WayPoint5
+    pointset: NA
+    pose:
+    pose:
+      orientation:
+        w: 1.0
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      position:
+        x: 22.450000000000003
+        y: 10.25
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+- meta:
+    map: norway_curved_poles
+    node: WayPoint6
+    pointset: norway_curved_poles 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint6_WayPoint7
+      node: WayPoint7
+    name: WayPoint6
+    pose:
+      orientation:
+        w: 1.0
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      position:
+        x: 10.5
+        y: 9.549999999999997
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+- meta:
+    map: norway_curved_poles
+    node: WayPoint7
+    pointset: norway_curved_poles 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint7_WayPoint8
+      node: WayPoint8
+    name: WayPoint7
+    pose:
+      orientation:
+        w: 1.0
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      position:
+        x: 10.5
+        y: 8.0
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+- meta:
+    map: norway_curved_poles
+    node: WayPoint8
+    pointset: norway_curved_poles 
+  node:
+    edges:
+    - action: move_base
+      edge_id: WayPoint8_WayPoint9
+      node: WayPoint8
+    name: WayPoint9
+    pointset: NA
+    pose:
+      orientation:
+        w: 1.0
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      position:
+        x: 22.55000000000001
+        y: 8.799999999999997
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
+- meta:
+    map: norway_curved_poles
+    node: WayPoint9
+    pointset: norway_curved_poles 
+  node:
+    edges: []
+    name: WayPoint9
+    pointset: NA
+    pose:
+      orientation:
+        w: 1.0
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      position:
+        x: 34.650000000000006
+        y: 10.949999999999989
+        z: 0.0
+    verts:
+    - x: 0.689999997616
+      y: 0.287000000477
+    - x: 0.287000000477
+      y: 0.689999997616
+    - x: -0.287000000477
+      y: 0.689999997616
+    - x: -0.689999997616
+      y: 0.287000000477
+    - x: -0.689999997616
+      y: -0.287000000477
+    - x: -0.287000000477
+      y: -0.689999997616
+    - x: 0.287000000477
+      y: -0.689999997616
+    - x: 0.689999997616
+      y: -0.287000000477
