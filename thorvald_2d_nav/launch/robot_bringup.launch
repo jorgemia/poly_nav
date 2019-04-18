@@ -3,7 +3,7 @@
 
   <arg name="robot_name" default="" />
   <arg name="tf_prefix" default="" />
-  <arg name="simple_sim" value="True" />
+  <arg name="simple_sim" default="" />
   <arg name="with_teleoperation" default="false" />
   <arg name="joy_dev" default="/dev/input/js0" />
 
@@ -30,7 +30,7 @@
   <include file="$(find thorvald_base)/launch/base_bringup.launch">
     <arg name="robot_model" value="$(find thorvald_model)/config/$(arg robot_model)/$(arg robot_model).yaml" />
     <arg name="simple_sim" value="True" />
-    <arg name="enable_odom_tf" value="False" />
+    <!--arg name="enable_odom_tf" value="False" /-->
   </include>
 
   <!-- twist mux bringup -->
@@ -42,8 +42,8 @@
   </include>
 
   <!-- Launch the Gazebo world.  -->
-  <include file="$(find thorvald_2d_nav)/launch/world.launch">
-   <arg name="world_name" value="$(arg world_name)"/>
+  <include file="$(find thorvald_2d_nav)/launch/world.launch" if="$(arg simple_sim)">
+   <arg name="world_name" value="$(arg world_name)" if="$(arg simple_sim)"/>
   </include>
 
   <!-- spawn robot in gazebo -->

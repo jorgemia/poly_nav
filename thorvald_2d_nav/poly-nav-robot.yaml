@@ -59,17 +59,17 @@ init_cmd: |
   export_default USE_GPS false
   export_default USE_VELODYNE false
   export_default POLY_NAV false
-  export_default USE_MOVE_BASE false
+  export_default USE_MOVE_BASE true
   
   # Task specific?
   export_default USE_TOPO_MAP false 
   export_default LOAD_LOCAL_TOPO_MAP false # To have a topological map without a coordination server. This requires an existing topo map on onboard NUC. 
   export_default USE_COORDINATE_SERVER false
-  export_default CREATE_NEW_MAP true
+  export_default CREATE_NEW_MAP false
   
   export_default MONGO_PATH "$HOME/mongodb-rasberry"
   export_default TMAP Norway_case_2
-  export_default MAP "$(rospack find thorvald_2d_nav)/maps/norway_curved_poles.yaml"
+  export_default MAP "$HOME/maps/norway_curved_poles.yaml"
 
 windows:
 - name: init
@@ -88,10 +88,10 @@ windows:
   - if $USE_IMU; then roslaunch rasberry_bringup xsens_driver.launch; fi
 - name: localisation
   panes:
-#  - rosrun persistent_topics single_channel_persistent_topics_node _topics:="['/topological_map']" _file_name:="/tmp/rasberry.ptb"  
-  - if ! $CREATE_NEW_MAP; then roslaunch rasberry_move_base map_server.launch map:="$MAP"; else rosrun gmapping slam_gmapping; fi
+   - sleep 1; source $HOME/poly_nav_ws/devel/setup.bash; fi 
+   - if ! $CREATE_NEW_MAP; then roslaunch rasberry_move_base map_server.launch map:="$MAP"; else rosrun gmapping slam_gmapping; fi
 #  - if $CREATE_NEW_MAP; then rosrun gmapping slam_gmapping; fi
-  - roslaunch rasberry_navigation rasberry_localisation.launch use_imu:="$USE_IMU" use_gps:="$USE_GPS" creating_map:="$CREATE_NEW_MAP" amcl_init_x:="0.0" amcl_init_y:="0.0" amcl_init_a:="0.0"
+   - roslaunch rasberry_navigation rasberry_localisation.launch use_imu:="$USE_IMU" use_gps:="$USE_GPS" creating_map:="$CREATE_NEW_MAP" amcl_init_x:="0.0" amcl_init_y:="0.0" amcl_init_a:="0.0"
 - name: navigation
   panes:
   - roslaunch rasberry_move_base move_base_dwa.launch move_base_active:="$USE_MOVE_BASE" #roslaunch rasberry_move_base move_base_teb.launch

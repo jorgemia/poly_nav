@@ -10,13 +10,16 @@
   <arg name="initial_cov_yy" default="0.0"/>
   <arg name="initial_cov_aa" default="0.0"/>
   <arg name="map_file" default="$(find thorvald_2d_nav)/maps/norway_curved_poles.yaml"/>
+  <arg name="simple_sim" default="false" />
 
 <!-- Run the map server -->
 <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
 
 <node pkg="amcl" type="amcl" name="amcl" output="screen">
 
-    <remap from="scan" to="scan_filtered" />
+    <!--remap from="scan" to="scan_filtered" if="$(arg simple_sim)"/-->
+    <remap from="scan" to="scan"/>
+
     <!-- see param description on http://www.ros.org/wiki/amcl -->
 		<!--overall filter -->
         <param name="min_particles" value="100"/>
