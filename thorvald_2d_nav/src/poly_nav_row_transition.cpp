@@ -240,7 +240,7 @@ int main(int argc, char** argv)
 {
   ros::init(argc, argv, "poly_nav_row_transition");
   ros::NodeHandle n;
-  ros::Rate r(1.0);
+  //ros::Rate r(1.0);
 
   // Subscribers
   ros::Subscriber scan_sub_test = n.subscribe("scan_filtered", 100, scanCallback);
@@ -370,7 +370,7 @@ int main(int argc, char** argv)
      break;
     }
    }
-    std::cout << "goal_range:" << goal_range << "\n" << "yaw:" << yaw << std::endl;
+    // std::cout << "goal_range:" << goal_range << "\n" << "yaw:" << yaw << std::endl;
   break;
    }
   }
@@ -429,7 +429,7 @@ int main(int argc, char** argv)
    } // goal check 
   } // scan check
 
-     r.sleep(); 
+     //r.sleep(); 
   } // node shutdown
  return 0;
 } // main loop end
