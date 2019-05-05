@@ -195,16 +195,18 @@ create_markers(po); // create the markers
   if(marker_[0].pose.position.y > marker_[1].pose.position.y) nearest_pole.position = marker_[0].pose.position;
   else nearest_pole.position = marker_[1].pose.position;
 
-  marker_[3].pose.position.y = (marker_[2].pose.position.y + nearest_pole.position.y)/2;
-  marker_[4].pose.position.y = ((marker_[0].pose.position.y + marker_[1].pose.position.y)/2);
-
-  if(row_transit_mode==1){ 
-  marker_[3].pose.position.x = ((marker_[2].pose.position.x + nearest_pole.position.x)/2) + 2.0;
-  marker_[4].pose.position.x = ((marker_[0].pose.position.x + marker_[1].pose.position.x)/2) + 2.0; }
+   if(row_transit_mode==1){ 
+  marker_[3].pose.position.x = ((marker_[2].pose.position.x + nearest_pole.position.x)/2) + 2.5;
+  marker_[4].pose.position.x = ((marker_[0].pose.position.x + marker_[1].pose.position.x)/2) + 2.5;
+  marker_[3].pose.position.y = ((marker_[2].pose.position.y + nearest_pole.position.y)/2)-0.1;
+  marker_[4].pose.position.y = ((marker_[0].pose.position.y + marker_[1].pose.position.y)/2)-0.1;
+ }
   else{ 
-  marker_[3].pose.position.x = ((marker_[2].pose.position.x + nearest_pole.position.x)/2) - 2.0;
-  marker_[4].pose.position.x = ((marker_[0].pose.position.x + marker_[1].pose.position.x)/2) - 2.0; }
-
+  marker_[3].pose.position.x = ((marker_[2].pose.position.x + nearest_pole.position.x)/2) - 2.5;
+  marker_[4].pose.position.x = ((marker_[0].pose.position.x + marker_[1].pose.position.x)/2) - 2.5; }
+  marker_[3].pose.position.y = ((marker_[2].pose.position.y + nearest_pole.position.y)/2)+0.2;
+  marker_[4].pose.position.y = ((marker_[0].pose.position.y + marker_[1].pose.position.y)/2)+0.2;
+ 
   create_markers(3); // create the goal marker 1
   create_markers(4); // create the goal marker 2
   goal_pt[0].position = marker_[3].pose.position;
@@ -243,7 +245,7 @@ int main(int argc, char** argv)
   ros::Rate r(1.0);
 
   // Subscribers
-  ros::Subscriber scan_sub_test = n.subscribe("scan_filtered", 100, scanCallback);
+  ros::Subscriber scan_sub_test = n.subscribe("scan", 100, scanCallback);
   ros::Subscriber pose_sub = n.subscribe("robot_pose", 100, robotposeCallback);
   ros::Subscriber hpose_sub = n.subscribe("hokuyo_pose", 100, hposeCallback); // tf map to hokuyo
   
@@ -333,7 +335,7 @@ int main(int argc, char** argv)
      ros::Duration(2.0).sleep(); // sleep for half a second
      }
     }
-    std::cout << "goal_range:" << goal_range << "\n" << "yaw:" << yaw << std::endl;
+    // std::cout << "goal_range:" << goal_range << "\n" << "yaw:" << yaw << std::endl;
     break;
 
     case LEFT:
@@ -370,7 +372,7 @@ int main(int argc, char** argv)
      break;
     }
    }
-    std::cout << "goal_range:" << goal_range << "\n" << "yaw:" << yaw << std::endl;
+    //std::cout << "goal_range:" << goal_range << "\n" << "yaw:" << yaw << std::endl;
   break;
    }
   }
@@ -429,7 +431,7 @@ int main(int argc, char** argv)
    } // goal check 
   } // scan check
 
-     r.sleep(); 
+     //r.sleep(); 
   } // node shutdown
  return 0;
 } // main loop end

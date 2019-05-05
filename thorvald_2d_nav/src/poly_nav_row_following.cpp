@@ -14,7 +14,7 @@ Ransac::Ransac(){
   }
 
   // Subscribers
-  scan_sub = nh_.subscribe("scan_filtered", 100, &Ransac::scanCallback, this);
+  scan_sub = nh_.subscribe("scan", 100, &Ransac::scanCallback, this);
   pose_sub = nh_.subscribe("robot_pose", 100, &Ransac::poseCallback, this); // tf map to base link
   hpose_sub = nh_.subscribe("hokuyo_pose", 100, &Ransac::hposeCallback, this); // tf map to hokuyo
   lpose_sub = nh_.subscribe("line_pose", 100, &Ransac::lposeCallback, this); // EKF pose
@@ -127,7 +127,7 @@ void Ransac::scanCallback(const sensor_msgs::LaserScan::ConstPtr &scan_msg) {
         if(std::fabs(x[second_pt] - x[first_pt])< 1.0) goto skip_line;
 
         // Condition 2 (Angle between two poles check)
-        if(std::fabs(atan2(y[second_pt]-y[first_pt],x[second_pt]-x[first_pt]))> 0.175) goto skip_line;
+        if(std::fabs(atan2(y[second_pt]-y[first_pt],x[second_pt]-x[first_pt]))> 0.19) goto skip_line;
 
         // Condition 3 (Same line detection check)
         if(n==2){ if((std::fabs(y[first_pt]-line_[0].y)< 1.0)||(std::fabs(y[second_pt]-line_[1].y)< 1.0)) goto skip_line; }
@@ -341,9 +341,9 @@ void Ransac::controller(){
           row_follow_mode = false;
           landmarks_pose.landmark_check = 0;
           }else{
-          est_twist.linear.x = 0.0;  // SET TO ZERO UNTIL THE ABOVE ONES WORK
-          est_twist.angular.z = 0.0;
-          //est_twist.angular.z = angular_velocity;
+          est_twist.linear.x = 0.3;  // SET TO ZERO UNTIL THE ABOVE ONES WORK
+          //est_twist.angular.z = 0.0;
+          est_twist.angular.z = angular_velocity;
         }
 
         stop:

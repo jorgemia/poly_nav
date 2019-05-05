@@ -18,7 +18,7 @@
 <node pkg="amcl" type="amcl" name="amcl" output="screen">
 
     <!--remap from="scan" to="scan_filtered" if="$(arg simple_sim)"/-->
-    <remap from="scan" to="scan"/>
+    <!--remap from="scan" to="scan"/-->
 
     <!-- see param description on http://www.ros.org/wiki/amcl -->
 		<!--overall filter -->

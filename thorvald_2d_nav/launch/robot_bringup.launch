@@ -30,7 +30,7 @@
   <include file="$(find thorvald_base)/launch/base_bringup.launch">
     <arg name="robot_model" value="$(find thorvald_model)/config/$(arg robot_model)/$(arg robot_model).yaml" />
     <arg name="simple_sim" value="True" />
-    <!--arg name="enable_odom_tf" value="False" /-->
+    <!--arg name="enable_odom_tf" value="True" /-->
   </include>
 
   <!-- twist mux bringup -->

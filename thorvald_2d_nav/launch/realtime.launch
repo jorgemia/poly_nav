@@ -4,6 +4,7 @@
 
 <arg name="topo_map" default="norway_poles_sim_6_pts" />
 <arg name="map_file" default="$(find thorvald_2d_nav)/maps/norway_curved_poles.yaml"/>
+<arg name="ekf_odom_config" default="$(find thorvald_2d_nav)/config/norway_odom_ekf.yaml"/>
 <arg name="simple_sim" value="false"/>
 <arg name="use_sim_time" value="false"/>
 <arg name="initial_pose_x" default="4.5"/>
@@ -16,10 +17,15 @@
   <arg name="simple_sim" value="$(arg simple_sim)" />
 </include>
 
-
 <node pkg="urg_node" type="urg_node" name="urg_node" output="screen">
  <param name="ip_address" value="192.168.0.10"/>
 </node>
+
+<!-- imu-ekf or odm-ekf localization for odom-to-base_link -->
+<node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_local" clear_params="true" output="screen">
+    <rosparam command="load" file="$(arg ekf_odom_config)" />
+</node> 
+
 
 <include file = "$(find thorvald_2d_nav)/launch/amcl.launch">
   <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>

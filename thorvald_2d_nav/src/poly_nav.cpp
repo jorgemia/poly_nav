@@ -3,7 +3,7 @@
 Ransac::Ransac(){
 
   // Subscribers
-  scan_sub = nh_.subscribe("scan_filtered", 100, &Ransac::scanCallback, this);
+  scan_sub = nh_.subscribe("scan", 100, &Ransac::scanCallback, this);
   pose_sub = nh_.subscribe("robot_pose", 100, &Ransac::poseCallback, this); // tf map to base link
   hpose_sub = nh_.subscribe("hokuyo_pose", 100, &Ransac::hposeCallback, this); // tf map to hokuyo
  
