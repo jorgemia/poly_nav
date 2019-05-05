@@ -17,13 +17,11 @@ Ransac::Ransac(){
   scan_sub = nh_.subscribe("scan", 100, &Ransac::scanCallback, this);
   pose_sub = nh_.subscribe("robot_pose", 100, &Ransac::poseCallback, this); // tf map to base link
   hpose_sub = nh_.subscribe("hokuyo_pose", 100, &Ransac::hposeCallback, this); // tf map to hokuyo
-  lpose_sub = nh_.subscribe("line_pose", 100, &Ransac::lposeCallback, this); // EKF pose
 
   // Publishers
   marker_pub_1 = nh_.advertise<visualization_msgs::Marker>("line_marker_1", 10);
   marker_pub_2 = nh_.advertise<visualization_msgs::Marker>("line_marker_2", 10);
   marker_pub_3 = nh_.advertise<visualization_msgs::Marker>("final_line", 10);
-  point_pub = nh_.advertise<thorvald_2d_nav::scan_detected_line>("measurement_points", 10);
   landmarks_pub = nh_.advertise<thorvald_2d_nav::landmarks>("landmark_points", 10);
   twist_gazebo = nh_.advertise<geometry_msgs::Twist>("nav_vel", 100);  // control
   a_err = nh_.advertise<std_msgs::Float64>("ang_err", 100);
@@ -33,16 +31,11 @@ Ransac::Ransac(){
 
   // ROS Service Server
   service_obj = nh_.advertiseService("/row_transition_end_1", &Ransac::row_transition, this);
+
+  hokuyo_listener.waitForTransform("map", "hokuyo", ros::Time(), ros::Duration(1.0)); // Wait for transform
 }
 
 void Ransac::initialize(){
-transformStamped.header.stamp = ros::Time::now();
-transformStamped.header.frame_id = "map";
-transformStamped.child_frame_id = "hokuyo";
-meas_pts.range.resize(4);
-meas_pts.bearing.resize(4);
-prev_meas_pts.range.resize(4);
-prev_meas_pts.bearing.resize(4);
 landmarks_pose.x.resize(6);
 landmarks_pose.y.resize(6);
 prev_landmarks_pose.x.resize(6);
@@ -50,15 +43,17 @@ prev_landmarks_pose.y.resize(6);
 landmarks_pose.landmark_check = 0;
 landmarks_pose.row_number = 0;
 landmarks_pose.feature_no = 0;
-meas_pts.meas_update = false;
-prev_meas_pts.range[0] = 0;
-prev_meas_pts.bearing[0] = 0;
 for(int lp=0;lp<=5;lp++){
-landmarks_pose.x[lp] = 0;
-landmarks_pose.y[lp] = 0;
+landmarks_pose.x[lp] = 0; landmarks_pose.y[lp] = 0;
 }
 
 }
+
+// Hokuyo pose data
+void Ransac::hposeCallback (const geometry_msgs::Pose::ConstPtr& hpose_msg){
+hokuyo_pose.position = hpose_msg->position;
+hokuyo_pose.orientation = hpose_msg->orientation;
+} 
 
 // Laser Scan data
 void Ransac::scanCallback(const sensor_msgs::LaserScan::ConstPtr &scan_msg) {
@@ -169,18 +164,6 @@ void Ransac::poseCallback (const geometry_msgs::Pose::ConstPtr& pose_msg){
  }
 }
 
-// Hokuyo pose data
-void Ransac::hposeCallback (const geometry_msgs::Pose::ConstPtr& hpose_msg){
-hokuyo_pose.position = hpose_msg->position;
-hokuyo_pose.orientation = hpose_msg->orientation;
-}
-
-// EKF line pose data
-void Ransac::lposeCallback (const nav_msgs::Odometry::ConstPtr& lpose_msg){
-line_pose.position = lpose_msg->pose.pose.position;
-line_pose.orientation = lpose_msg->pose.pose.orientation;
-}
-
 // Normalize the bearing
 double Ransac::normalizeangle(double bearing){
   if (bearing < -M_PI) {
@@ -201,8 +184,6 @@ bool Ransac::row_transition(thorvald_2d_nav::sub_goal::Request &req, thorvald_2d
      line_count = 0;
      landmarks_pose.x.resize(6);
      landmarks_pose.y.resize(6);
-     meas_pts.range.resize(4);
-     meas_pts.bearing.resize(4);
      return true;
    }
 
@@ -223,16 +204,19 @@ void Ransac::create_markers(int id_no){
 void Ransac::calculate_measurements(){
 
   if((both_lines_found==true)){
-  transformStamped.transform.translation.x = hokuyo_pose.position.x;
-  transformStamped.transform.translation.y = hokuyo_pose.position.y;
-  transformStamped.transform.translation.z = hokuyo_pose.position.z;
-  transformStamped.transform.rotation.x = hokuyo_pose.orientation.x;
-  transformStamped.transform.rotation.y = hokuyo_pose.orientation.y;
-  transformStamped.transform.rotation.z = hokuyo_pose.orientation.z;
-  transformStamped.transform.rotation.w = hokuyo_pose.orientation.w;
+  // hokuyo_listener.lookupTransform("map", "hokuyo", ros::Time(0), hokuyo_transform);
+  // tf::transformStampedTFToMsg(hokuyo_transform, hokuyo_transformStamped);
+
+  hokuyo_transformStamped.transform.translation.x = hokuyo_pose.position.x;
+  hokuyo_transformStamped.transform.translation.y = hokuyo_pose.position.y;
+  hokuyo_transformStamped.transform.translation.z = hokuyo_pose.position.z;
+  hokuyo_transformStamped.transform.rotation.x = hokuyo_pose.orientation.x;
+  hokuyo_transformStamped.transform.rotation.y = hokuyo_pose.orientation.y;
+  hokuyo_transformStamped.transform.rotation.z = hokuyo_pose.orientation.z;
+  hokuyo_transformStamped.transform.rotation.w = hokuyo_pose.orientation.w;
 
   for(int ic=0; ic<4; ic++){ // Landmarks Positions
-  tf2::doTransform(line_[ic], line_trans_[ic], transformStamped);  // Switch from Hokuyo frame to Map Frame
+  tf2::doTransform(line_[ic], line_trans_[ic], hokuyo_transformStamped);  // Switch from Hokuyo frame to Map Frame
   landmarks_pose.x[ic] = line_trans_[ic].x;
   landmarks_pose.y[ic] = line_trans_[ic].y;
   }
@@ -242,18 +226,14 @@ void Ransac::calculate_measurements(){
   landmarks_pose.x[5] = (landmarks_pose.x[1] + landmarks_pose.x[3])/2;
   landmarks_pose.y[5] = (landmarks_pose.y[1] + landmarks_pose.y[3])/2;
 
-  for(int re=0;re<=3;re++) { prev_line_trans_[re] = line_trans_[re]; // Update Previous line detection
-  prev_meas_pts.range[re] = meas_pts.range[re];
-  prev_meas_pts.bearing[re] = meas_pts.bearing[re];} // Update Previous Measurements
+  for(int re=0;re<=3;re++) { prev_line_trans_[re] = line_trans_[re]; }  // Update Previous line detection
   for(int re=0;re<=5;re++){ prev_landmarks_pose.x[re] = landmarks_pose.x[re];
                             prev_landmarks_pose.y[re] = landmarks_pose.y[re];} // Update Previous Landmarks Positions
 
   } // both the lines found check
 
   else{ // Use Previous best line fit if not found
-  for(int pl=0;pl<=3;pl++) { line_trans_[pl] = prev_line_trans_[pl];
-  meas_pts.range[pl] = prev_meas_pts.range[pl];
-  meas_pts.bearing[pl] = prev_meas_pts.bearing[pl];} // Update Previous Measurements
+  for(int pl=0;pl<=3;pl++) { line_trans_[pl] = prev_line_trans_[pl]; } // Update Previous Measurements
   for(int pl=0;pl<=5;pl++){ landmarks_pose.x[pl] = prev_landmarks_pose.x[pl];
                             landmarks_pose.y[pl] = prev_landmarks_pose.y[pl];} // Update Previous Landmarks Positions
   }
@@ -275,14 +255,6 @@ void Ransac::calculate_measurements(){
      }
     }
 
-  for(int pt=0; pt<4; pt++){ // Actual measurements (pho and alpha calculation)
-    meas_pts.bearing[pt] = normalizeangle(atan2(landmarks_pose.y[pt],landmarks_pose.x[pt])-yaw);
-    meas_pts.range[pt] = sqrt(pow(landmarks_pose.x[pt],2) + pow(landmarks_pose.y[pt],2));
-  }
-
-    // Feature Update
-    d_line = sqrt(w_p*pow((prev_meas_pts.range[0]-meas_pts.range[0]),2)+w_b*pow((prev_meas_pts.bearing[0]-meas_pts.bearing[0]),2)); // Data Association
-    if(d_line>d_ther) landmarks_pose.feature_no = landmarks_pose.feature_no + 1;
     landmarks_pose.landmark_check = landmarks_pose.landmark_check + 1;
 }
 
@@ -333,16 +305,13 @@ void Ransac::controller(){
           ROS_INFO("Final Mini-Goal Reached");
 
           for (int els=0;els<3;els++){ line_strip[els] = empty_line_strip[els]; }
-          meas_pts = empty_meas_pts;
           landmarks_pose = empty_landmarks_pose;
           prev_landmarks_pose = empty_landmarks_pose;
           landmarks_pose.feature_no = 0;
-          meas_pts.meas_update = false;
           row_follow_mode = false;
           landmarks_pose.landmark_check = 0;
           }else{
           est_twist.linear.x = 0.3;  // SET TO ZERO UNTIL THE ABOVE ONES WORK
-          //est_twist.angular.z = 0.0;
           est_twist.angular.z = angular_velocity;
         }
 
@@ -363,10 +332,7 @@ void Ransac::move(){
   controller(); // low-level controller
   } // row follow mode
 
-  meas_pts.meas_update = true;
-  meas_pts.header.stamp = ros::Time::now();
   landmarks_pose.header.stamp = ros::Time::now();
-  point_pub.publish(meas_pts); // publish measurements pho and alpha
   landmarks_pub.publish(landmarks_pose); // publish landmark x and y
 
   r.sleep();

@@ -2,7 +2,7 @@
 
 <launch>
 
-  <arg name="initial_pose_x" default="4.5"/>
+  <arg name="initial_pose_x" default="6.4"/>
   <arg name="initial_pose_y" default="5.4"/>
   <arg name="initial_pose_a" default="0.0"/>
 
